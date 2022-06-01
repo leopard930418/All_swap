@@ -1,0 +1,31 @@
+#  workflow pipeline
+name: allswap
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+
+        node: ['12.x', '14.x']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install and Compile
+        run: |
+          yarn install
+          yarn build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: build # The folder the action should deploy.
